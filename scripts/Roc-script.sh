@@ -48,13 +48,9 @@ function git_sparse_clone() {
   cd .. && rm -rf $repodir
 }
 
-# 将 luci-app-homeproxy 移入 VPN 菜单
-sed -i 's/\"services\"/\"vpn\"/g' package/luci-app-homeproxy/luasrc/controller/homeproxy.lua
-sed -i 's/\"services\"/\"vpn\"/g' package/luci-app-homeproxy/root/usr/share/luci/menu.d/luci-app-homeproxy.json 2>/dev/null || true
-
 # 将 luci-app-tailscale 移入 VPN 菜单
-find package/ feeds/ -path "*/luci-app-tailscale*/controller/*.lua" -exec sed -i 's/\"services\"/\"vpn\"/g' {} \;
-find package/ feeds/ -path "*/luci-app-tailscale*/menu.d/*.json" -exec sed -i 's/\"services\"/\"vpn\"/g' {} \; 2>/dev/null || true
+find feeds/ -path "*/luci-app-tailscale*/controller/*.lua" -exec sed -i 's/\"services\"/\"vpn\"/g' {} \;
+find feeds/ -path "*/luci-app-tailscale*/menu.d/*.json" -exec sed -i 's/\"services\"/\"vpn\"/g' {} \; 2>/dev/null || true
 
 # ariang & Go & frp & WolPlus & OpenList & Lucky & wechatpush & OpenAppFilter & 集客无线AC控制器 & 雅典娜LED控制
 git_sparse_clone ariang https://github.com/laipeng668/packages net/ariang
@@ -79,5 +75,8 @@ git clone --depth=1 https://github.com/EasyTier/luci-app-easytier.git package/lu
 rm -rf feeds/luci/applications/luci-app-homeproxy
 git clone --depth=1 https://github.com/VIKINGYFY/homeproxy.git package/luci-app-homeproxy
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+# 将 luci-app-homeproxy 移入 VPN 菜单
+sed -i 's/\"services\"/\"vpn\"/g' package/luci-app-homeproxy/luasrc/controller/homeproxy.lua
+sed -i 's/\"services\"/\"vpn\"/g' package/luci-app-homeproxy/root/usr/share/luci/menu.d/luci-app-homeproxy.json 2>/dev/null || true
+
+
